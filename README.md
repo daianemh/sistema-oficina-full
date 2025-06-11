@@ -1,5 +1,7 @@
  Sistema Oficina Mecânica
+ 
 Desenvolvido por: Daiane Horbach
+
 📌 Sobre o Projeto
 Este sistema foi criado para otimizar a gestão de oficinas mecânicas, oferecendo um ambiente digital para controle de ordens de serviço, clientes, pagamentos e relatórios. A plataforma combina Java no back-end com Spring Boot para garantir robustez e escalabilidade, enquanto o front-end utiliza HTML, CSS e JavaScript para uma experiência intuitiva.
 🛠 Tecnologias Utilizadas
