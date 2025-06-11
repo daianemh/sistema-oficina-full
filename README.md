@@ -26,4 +26,4 @@ Ferramentas e Integrações
 ✅ Painel administrativo para gestão interna
 
 ✍️ Desenvolvido por
-Daiane Horbach – [[Seu GitHub ou Site Pessoal](https://daianehorbachdev.netlify.app/)]
+Daiane Horbach – [[Site Pessoal](https://daianehorbachdev.netlify.app/)]
