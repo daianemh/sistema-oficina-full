@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de Privacidade - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <main class="container">
+    <h1>Política de Privacidade</h1>
+    
+    <section>
+      <h2>1. Coleta de Dados</h2>
+      <p>Coletamos informações pessoais como nome, e-mail, telefone e dados relacionados aos serviços prestados para oferecer um atendimento personalizado e eficiente.</p>
+    </section>
+
+    <section>
+      <h2>2. Uso dos Dados</h2>
+      <ul>
+        <li>Gerenciar orçamentos, serviços e clientes.</li>
+        <li>Facilitar comunicação e envio de notificações.</li>
+        <li>Melhorar nossos serviços e atendimento.</li>
+        <li>Cumprir obrigações legais e fiscais.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Compartilhamento de Dados</h2>
+      <p>Não compartilhamos seus dados pessoais com terceiros, exceto quando exigido por lei ou para cumprimento de obrigações legais.</p>
+    </section>
+
+    <section>
+      <h2>4. Segurança</h2>
+      <p>Adotamos medidas técnicas e administrativas para proteger suas informações contra acessos não autorizados, alterações ou divulgação indevida.</p>
+    </section>
+
+    <section>
+      <h2>5. Direitos do Usuário</h2>
+      <p>Você tem direito de acessar, corrigir ou solicitar a exclusão dos seus dados pessoais, conforme previsto na legislação vigente.</p>
+    </section>
+
+    <section>
+      <h2>6. Cookies</h2>
+      <p>Utilizamos cookies para melhorar sua experiência. Você pode configurar seu navegador para recusar cookies, mas algumas funcionalidades podem ser afetadas.</p>
+      <p>Saiba mais sobre como gerenciar cookies em seu navegador nas configurações de privacidade.</p>
+    </section>
+
+    <section>
+      <h2>7. Alterações na Política</h2>
+      <p>Esta política pode ser atualizada periodicamente. Recomendamos que revise esta página regularmente para estar ciente de eventuais mudanças.</p>
+    </section>
+
+    <section>
+      <h2>8. Contato</h2>
+      <p>Para dúvidas ou solicitações relacionadas à privacidade, entre em contato pelo e-mail <a href="mailto:privacidade@oficinamecanica.com">privacidade@oficinamecanica.com</a>.</p>
+    </section>
+
+    <footer>
+      <p>© 2025 Oficina Mecânica. Todos os direitos reservados.</p>
+    </footer>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <script>
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+
+  <script src="assets/js/script.js"></script>
+
+</body>
+</html>

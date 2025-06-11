@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Termos de Uso - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <main class="container">
+    <h1>Termos de Uso</h1>
+
+    <section>
+      <h2>1. Uso do Sistema</h2>
+      <p>O sistema é destinado ao uso exclusivo da Oficina Mecânica para gerenciamento de clientes, orçamentos, serviços e demais funcionalidades relacionadas.</p>
+    </section>
+
+    <section>
+      <h2>2. Responsabilidades do Usuário</h2>
+      <ul>
+        <li>Manter a confidencialidade das credenciais de acesso.</li>
+        <li>Utilizar o sistema de forma ética e legal.</li>
+        <li>Não compartilhar informações sensíveis com terceiros não autorizados.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Privacidade</h2>
+      <p>Os dados pessoais coletados são utilizados exclusivamente para fins operacionais da oficina, conforme a legislação vigente de proteção de dados.</p>
+    </section>
+
+    <section>
+      <h2>4. Propriedade Intelectual</h2>
+      <p>Todo o conteúdo, design e código do sistema são propriedade da empresa desenvolvedora e estão protegidos por leis de direitos autorais.</p>
+    </section>
+
+    <section>
+      <h2>5. Limitação de Responsabilidade</h2>
+      <p>A Oficina Mecânica e a empresa desenvolvedora não se responsabilizam por danos indiretos, perda de dados ou interrupções causadas pelo uso do sistema.</p>
+    </section>
+
+    <section>
+      <h2>6. Alterações nos Termos</h2>
+      <p>Estes termos podem ser atualizados periodicamente. Recomendamos que os usuários revisem esta página regularmente.</p>
+    </section>
+
+    <section>
+      <h2>7. Contato</h2>
+      <p>Para dúvidas ou suporte, entre em contato conosco pelo e-mail <a href="mailto:suporte@oficinamecanica.com">suporte@oficinamecanica.com</a>.</p>
+    </section>
+
+    <footer>
+      <p>© 2025 Oficina Mecânica. Todos os direitos reservados.</p>
+    </footer>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <script>
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+
+  <script src="assets/js/script.js"></script>
+
+</body>
+</html>

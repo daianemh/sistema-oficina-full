@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Funcionários - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <header>
+    <img src="assets/img/logo.png" alt="Logo da Oficina" class="logo">
+    <h1>Cadastro de Funcionários</h1>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Novo Funcionário</h2>
+      <form id="employee-form">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00">
+
+        <label for="role">Cargo:</label>
+        <input type="text" id="role" name="role" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <button type="submit">Cadastrar Funcionário</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Funcionários Cadastrados</h2>
+      <table id="employee-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Cargo</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <footer>
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('employee-form');
+    const tableBody = document.getElementById('employee-table');
+
+    let employees = JSON.parse(localStorage.getItem('employees')) || [];
+
+    function updateTable() {
+      tableBody.innerHTML = employees.length ? employees.map(emp => `
+        <tr>
+          <td>${emp.name}</td>
+          <td>${emp.cpf}</td>
+          <td>${emp.role}</td>
+          <td>${emp.email || '-'}</td>
+        </tr>`).join('') : '<tr><td colspan="4">Nenhum funcionário cadastrado.</td></tr>';
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const cpf = form.cpf.value.trim();
+      const role = form.role.value.trim();
+      const email = form.email.value.trim();
+
+      if (!name || !cpf || !role) return alert('Por favor, preencha todos os campos obrigatórios.');
+
+      if (employees.some(emp => emp.cpf === cpf)) return alert('Este CPF já está cadastrado.');
+
+      employees.push({ name, cpf, role, email });
+      localStorage.setItem('employees', JSON.stringify(employees));
+      updateTable();
+      form.reset();
+    });
+
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+
+    updateTable();
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

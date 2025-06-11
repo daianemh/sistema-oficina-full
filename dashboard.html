@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav id="menu-container" aria-label="Menu principal" role="navigation">
+    <p>Carregando menu...</p>
+  </nav>
+
+  <div class="container">
+    <header class="dashboard-header">
+      <h1>Dashboard</h1>
+      <button id="darkModeToggle">Alternar Modo Escuro</button>
+    </header>
+
+    <main class="content">
+      <section class="dashboard-cards" aria-label="Visão geral">
+        <div class="card">
+          <h3>Serviços em andamento</h3>
+          <p id="servicos-andamento">0</p>
+        </div>
+        <div class="card">
+          <h3>Receita do mês</h3>
+          <p id="receita-mes">R$ 0,00</p>
+        </div>
+        <div class="card">
+          <h3>Clientes ativos</h3>
+          <p id="clientes-ativos">0</p>
+        </div>
+        <div class="card">
+          <h3>A receber</h3>
+          <p id="a-receber">R$ 0,00</p>
+        </div>
+      </section>
+
+      <section class="charts">
+        <div class="chart-container">
+          <h3>Serviços por Status</h3>
+          <canvas id="statusChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3>Receita dos Últimos Meses</h3>
+          <canvas id="receitaChart"></canvas>
+        </div>
+      </section>
+    </main>
+  </div>
+     <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+    </script>
+<script src="assets/js/script.js"></script>
+  <footer class="footer">
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados</p>
+  </footer>
+</body>
+</html>

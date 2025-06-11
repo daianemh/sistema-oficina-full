@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobre o Sistema - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <main class="about-container">
+    <h1>Sobre o Sistema</h1>
+    <section>
+      <h2>Desenvolvido por Daiane Horbach</h2>
+      <p>Este sistema foi criado para facilitar a gestão completa da sua oficina mecânica, oferecendo <strong>mais eficiência, organização e segurança</strong>.</p>
+      <p>Com uma interface intuitiva e recursos avançados, você poderá gerenciar clientes, funcionários, serviços e finanças de forma integrada.</p>
+      <p>O sistema é ideal para oficinas que buscam otimizar seus processos e melhorar o atendimento ao cliente, garantindo uma experiência mais fluida e produtiva.</p> 
+    </section>
+
+    <section>
+      <h2>Quem Sou</h2>
+      <p>Sou uma desenvolvedora especializada em soluções tecnológicas, focada em <strong>sistemas intuitivos, seguros e eficientes</strong>. Para soluções personalizadas, entre em contato!</p>
+         <p>Minha formação inicial foi em <strong>back-end</strong> através de cursos e projetos práticos, onde adquiri habilidades em Java e Python, linguagens de programação, frameworks e bancos de dados.</p>
+          <p>Atualmente, estou me especializando em <strong>front-end</strong>, aprimorando minha capacidade de criar interfaces de usuário atraentes e funcionais. para me tornar desenvolvedora <strong>full stack</strong>.</p>
+          <p>Meu objetivo é desenvolver soluções que realmente façam a diferença no dia a dia das empresas, otimizando processos e melhorando a experiência do usuário.</p>
+    </section>
+
+    <section>
+      <h2>Missão</h2>
+      <p>Fornecer ferramentas digitais que <strong>solucionem problemas reais</strong>, otimizando seus processos, melhorando o atendimento ao cliente e aumentando a produtividade.</p>
+      <p>Meu compromisso é com a inovação e a excelência, sempre buscando as melhores práticas de desenvolvimento e as tecnologias mais avançadas.</p>
+      <p>Estou sempre aberta a feedbacks e sugestões, pois acredito que a colaboração é essencial para criar soluções cada vez melhores.</p>
+    </section>
+
+    <section>
+      <h2>Contato</h2>
+      <address>
+        <ul>
+          <li><strong>Telefone:</strong> <a href="tel:+5566999196565">(66) 99919-6565</a></li>
+          <li><strong>Email:</strong> <a href="mailto:daiane.horbachdev@gmail.com">daiane.horbachdev@gmail.com</a></li>
+          <li><strong>Site:</strong> <a href="https://daianehorbachdev.netlify.app/" target="_blank" rel="noopener">Visite meu portfólio</a></li>
+        </ul>
+      </address>
+    </section>
+
+    <div class="about-actions">
+      <button onclick="window.location.href='index.html'">Voltar para o Início</button>
+      <button onclick="window.location.href='mailto:daiane.horbachdev@gmail.com'">Enviar Email</button>
+      <button onclick="window.location.href='https://daianehorbachdev.netlify.app/'" target="_blank">Visitar Portfólio</button>
+      <button onclick="window.location.href='https://www.instagram.com/daiane.horbachdev/'" target="_blank">Visitar Instagram</button>
+    </div>
+  </main>
+
+ <button id="darkModeToggle">Alternar Modo Escuro</button>
+
+  <footer>
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>

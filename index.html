@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema Oficina - Daiane Horbach Dev</title>
+    <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+    <!-- Contêiner do Menu -->
+    <div id="menu-container"></div>
+
+    <!-- Conteúdo Principal -->
+    <main class="content">
+        <h2>Bem-vindo ao Sistema da Oficina</h2>
+        <p>Utilize o menu acima para acessar as funcionalidades do sistema.</p>
+
+        <!-- Resumo do Sistema -->
+        <section class="dashboard-summary">
+            <div class="summary-box">
+                <h3>Ordens de Serviço</h3>
+                <p>Total em andamento: <span id="total-os">0</span></p>
+            </div>
+            <div class="summary-box">
+                <h3>Faturamento do Mês</h3>
+                <p>R$ <span id="total-faturamento">0.00</span></p>
+            </div>
+        </section>
+
+        <!-- Alternância de Tema -->
+        <button id="darkModeToggle">Alternar Modo Escuro</button>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>© 2025 Auto Repair Shop - Sistema Completo</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+
+    </script>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

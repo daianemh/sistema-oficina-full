@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Central de Ajuda - Sistema Oficina</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <nav id="menu-container"></nav>
+
+  <main class="content">
+    <div class="container">
+      <h1>Central de Ajuda</h1>
+      
+      <div class="faq">
+        <button class="faq-question">Como criar um orçamento?</button>
+        <div class="faq-answer">Vá até a aba **Orçamentos** e clique em “Novo Orçamento”.</div>
+        
+        <button class="faq-question">Como cadastrar funcionários?</button>
+        <div class="faq-answer">Utilize a página **Funcionários** e preencha os dados.</div>
+        
+        <button class="faq-question">Problemas de login?</button>
+        <div class="faq-answer">Verifique se digitou seu e-mail corretamente ou redefina sua senha.</div>
+      </div>
+
+      <p>Suporte técnico: <a href="mailto:support@sistemaoficina.com">support@sistemaoficina.com</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Sistema Oficina - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // Carrega o menu fixo
+    fetch('partials/menu.html')
+      .then(response => response.ok ? response.text() : Promise.reject('Erro ao carregar menu'))
+      .then(data => document.getElementById('menu-container').innerHTML = data)
+      .catch(error => console.error(error));
+
+    // Alternância de Modo Escuro
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'on' : 'off');
+    }
+    if (localStorage.getItem('darkMode') === 'on') {
+      document.body.classList.add('dark-mode');
+    }
+    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+
+    // FAQ interativo
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        button.nextElementSibling.classList.toggle("visible");
+      });
+    });
+  </script>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

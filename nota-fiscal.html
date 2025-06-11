@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nota Fiscal - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <header>
+    <img src="assets/img/logo.png" alt="Logo da Oficina" class="logo">
+    <h1>Nota Fiscal</h1>
+  </header>
+
+  <main>
+    <form id="invoice-form">
+      <fieldset>
+        <legend>Dados da Nota Fiscal</legend>
+
+        <label for="invoiceNumber">Número da Nota:</label>
+        <input type="text" id="invoiceNumber" readonly class="input-field">
+
+        <label for="customer">Cliente:</label>
+        <input type="text" id="customer" required class="input-field">
+
+        <label for="service">Serviço:</label>
+        <input type="text" id="service" required class="input-field">
+
+        <label for="amount">Valor (R$):</label>
+        <input type="number" id="amount" step="0.01" min="0" required class="input-field">
+
+        <label for="tax">Imposto (%):</label>
+        <input type="number" id="tax" value="10" step="0.1" min="0" required class="input-field">
+
+        <label for="date">Data:</label>
+        <input type="date" id="date" required class="input-field">
+
+        <button type="submit" class="btn">Gerar Nota</button>
+        <button type="button" onclick="window.print()" class="btn btn-print">Imprimir</button>
+        <button type="button" id="saveInvoice" class="btn">Salvar Nota</button>
+      </fieldset>
+    </form>
+
+    <div id="invoiceResult" class="invoice-output"></div>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <footer>
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    let invoiceCounter = parseInt(localStorage.getItem("invoiceNumber")) || 1;
+    document.getElementById("invoiceNumber").value = invoiceCounter.toString().padStart(6, '0');
+
+    document.getElementById("invoice-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const customer = document.getElementById("customer").value.trim();
+      const service = document.getElementById("service").value.trim();
+      const amount = parseFloat(document.getElementById("amount").value);
+      const tax = parseFloat(document.getElementById("tax").value);
+      const date = document.getElementById("date").value;
+
+      if (!customer || !service || isNaN(amount) || isNaN(tax) || !date) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+      }
+
+      const taxValue = (amount * tax / 100);
+      const total = (amount + taxValue);
+      const formattedDate = new Date(date).toLocaleDateString('pt-BR');
+
+      document.getElementById("invoiceResult").innerHTML = `
+        <section class="invoice-generated">
+          <h2>Nota Fiscal #${invoiceCounter.toString().padStart(6, '0')}</h2>
+          <p><strong>Cliente:</strong> ${customer}</p>
+          <p><strong>Serviço:</strong> ${service}</p>
+          <p><strong>Valor:</strong> R$ ${amount.toFixed(2)}</p>
+          <p><strong>Imposto (${tax}%):</strong> R$ ${taxValue.toFixed(2)}</p>
+          <p><strong>Total:</strong> R$ ${total.toFixed(2)}</p>
+          <p><strong>Data:</strong> ${formattedDate}</p>
+        </section>
+      `;
+
+      invoiceCounter++;
+      localStorage.setItem("invoiceNumber", invoiceCounter);
+      document.getElementById("invoiceNumber").value = invoiceCounter.toString().padStart(6, '0');
+    });
+
+    document.getElementById("saveInvoice").addEventListener("click", function() {
+      const invoiceData = document.getElementById("invoiceResult").innerText;
+      if (!invoiceData) {
+        alert("Gere uma nota fiscal antes de salvar!");
+        return;
+      }
+
+      const blob = new Blob([invoiceData], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `NotaFiscal_${new Date().toISOString()}.txt`;
+      link.click();
+    });
+
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

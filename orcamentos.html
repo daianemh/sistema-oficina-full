@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orçamentos - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <header>
+    <img src="assets/img/logo.png" alt="Logo da Oficina" class="logo">
+    <h1>Orçamentos</h1>
+  </header>
+
+  <main>
+    <h2>Novo Orçamento</h2>
+    <form id="form-orcamento">
+      <fieldset>
+        <legend>Dados do Orçamento</legend>
+
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" required>
+
+        <label for="telefone">Telefone (WhatsApp):</label>
+        <input type="tel" id="telefone" pattern="\d{10,13}" placeholder="11999999999" required>
+
+        <label for="veiculo">Veículo:</label>
+        <input type="text" id="veiculo" placeholder="Marca/Modelo/Ano" required>
+
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" maxlength="8" placeholder="ABC1D23" required>
+
+        <label for="servicos">Serviços Realizados:</label>
+        <textarea id="servicos" required></textarea>
+
+        <label for="pecas">Peças Utilizadas:</label>
+        <textarea id="pecas" placeholder="Descreva as peças, se houver"></textarea>
+
+        <label for="valor">Valor Total (R$):</label>
+        <input type="number" id="valor" step="0.01" min="0" required>
+
+        <label for="imagem">Imagem do Veículo:</label>
+        <input type="file" id="imagem" accept="image/*">
+
+        <button type="submit">Salvar Orçamento</button>
+      </fieldset>
+    </form>
+
+    <div id="orcamento-gerado" style="display:none;">
+      <h3>Orçamento Gerado</h3>
+      <p><strong>Cliente:</strong> <span id="out-cliente"></span></p>
+      <p><strong>Telefone:</strong> <span id="out-telefone"></span></p>
+      <p><strong>Veículo:</strong> <span id="out-veiculo"></span></p>
+      <p><strong>Placa:</strong> <span id="out-placa"></span></p>
+      <p><strong>Serviços:</strong> <span id="out-servicos"></span></p>
+      <p><strong>Peças:</strong> <span id="out-pecas"></span></p>
+      <p><strong>Valor Total:</strong> R$ <span id="out-valor"></span></p>
+      <img id="out-imagem" src="" alt="Imagem do veículo" style="display:none;">
+      
+      <div>
+        <button id="btn-print">Imprimir</button>
+        <button id="btn-pdf">Salvar em PDF</button>
+        <button id="btn-whatsapp">Enviar por WhatsApp</button>
+      </div>
+    </div>
+  </main>
+
+
+  <footer>
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados.</p>
+  </footer>
+  <script>
+    document.getElementById('form-orcamento').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      document.getElementById('out-cliente').textContent = document.getElementById('cliente').value;
+      document.getElementById('out-telefone').textContent = document.getElementById('telefone').value;
+      document.getElementById('out-veiculo').textContent = document.getElementById('veiculo').value;
+      document.getElementById('out-placa').textContent = document.getElementById('placa').value;
+      document.getElementById('out-servicos').textContent = document.getElementById('servicos').value;
+      document.getElementById('out-pecas').textContent = document.getElementById('pecas').value || '-';
+      document.getElementById('out-valor').textContent = parseFloat(document.getElementById('valor').value).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+      document.getElementById('orcamento-gerado').style.display = 'block';
+
+      const imagem = document.getElementById('imagem').files[0];
+      if (imagem) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('out-imagem').src = event.target.result;
+          document.getElementById('out-imagem').style.display = 'block';
+        };
+        reader.readAsDataURL(imagem);
+      }
+    });
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

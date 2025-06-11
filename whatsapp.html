@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enviar Mensagem - Oficina Mecânica</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <meta name="description" content="Envie mensagens via WhatsApp para seus clientes da Oficina Mecânica de forma rápida e prática.">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <header>
+    <h1>Enviar Mensagem via WhatsApp</h1>
+  </header>
+
+  <main class="content">
+    <form id="form-whatsapp">
+      <label for="number">Número com DDD (ex: 11999998888):</label>
+      <input type="tel" id="number" required maxlength="13" pattern="\d{10,13}" placeholder="11999998888">
+
+      <label for="message">Mensagem:</label>
+      <textarea id="message" rows="5" required>Olá, sua ordem de serviço está pronta! Entre em contato para mais detalhes.</textarea>
+
+      <div id="error" class="error-message" style="display:none;"></div>
+
+      <button type="submit">Enviar via WhatsApp</button>
+    </form>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <footer>
+    <p>© 2025 Oficina Mecânica - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.getElementById('form-whatsapp').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const number = document.getElementById('number').value.replace(/\D/g, '');
+      const message = encodeURIComponent(document.getElementById('message').value.trim());
+      const errorDiv = document.getElementById('error');
+
+      errorDiv.style.display = 'none';
+      errorDiv.textContent = '';
+
+      if (number.length < 10 || number.length > 13) {
+        errorDiv.textContent = 'Número inválido. Verifique o DDD e o número do cliente.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      if (!message) {
+        errorDiv.textContent = 'A mensagem não pode estar vazia.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      window.open(`https://wa.me/55${number}?text=${message}`, '_blank');
+    });
+
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>

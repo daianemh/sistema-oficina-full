@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurações</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <div class="container" role="main">
+    <h1>Configurações do Sistema</h1>
+
+    <form id="config-form">
+      <label for="language">Idioma:</label>
+      <select id="language" name="language">
+        <option value="pt">Português</option>
+        <option value="en">Inglês</option>
+      </select>
+
+      <label>
+        <input type="checkbox" id="notifications" name="notifications">
+        Receber notificações por e-mail
+      </label>
+
+      <label>
+        <input type="checkbox" id="darkmode" name="darkmode">
+        Ativar modo escuro por padrão
+      </label>
+
+      <button type="submit">Salvar Configurações</button>
+    </form>
+
+    <div id="msg-sucesso" class="hidden">✅ Configurações salvas com sucesso!</div>
+  </div>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <footer>
+    <p>© 2025 Sistema Oficina - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('config-form');
+    const msgSucesso = document.getElementById('msg-sucesso');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyDarkMode(enabled) {
+      document.body.classList.toggle('dark-mode', enabled);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('language').value = localStorage.getItem('config_language') || 'pt';
+      document.getElementById('notifications').checked = localStorage.getItem('config_notifications') === 'true';
+      document.getElementById('darkmode').checked = localStorage.getItem('config_darkmode') === 'true';
+
+      applyDarkMode(document.getElementById('darkmode').checked);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      localStorage.setItem('config_language', document.getElementById('language').value);
+      localStorage.setItem('config_notifications', document.getElementById('notifications').checked);
+      localStorage.setItem('config_darkmode', document.getElementById('darkmode').checked);
+
+      applyDarkMode(document.getElementById('darkmode').checked);
+
+      msgSucesso.classList.remove('hidden');
+      setTimeout(() => msgSucesso.classList.add('hidden'), 3000);
+    });
+
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('config_darkmode', document.body.classList.contains('dark-mode'));
+    });
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+            // Adiciona o evento de clique para alternar o modo escuro
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    // Verifica o estado do modo escuro ao carregar a página
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    </script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

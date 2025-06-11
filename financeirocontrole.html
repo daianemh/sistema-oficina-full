@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controle Financeiro - Oficina</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav id="menu-container"></nav>
+
+  <header class="header">
+    <h1>Controle Financeiro</h1>
+  </header>
+
+  <main>
+    <form id="form-financial">
+      <label for="type">Tipo:</label>
+      <select id="type" name="type" required>
+        <option value="" disabled selected>Selecione</option>
+        <option value="income">Receita</option>
+        <option value="expense">Despesa</option>
+      </select>
+
+      <label for="description">Descrição:</label>
+      <input type="text" id="description" name="description" maxlength="100" required>
+
+      <label for="amount">Valor (R$):</label>
+      <input type="number" id="amount" name="amount" step="0.01" min="0.01" required>
+
+      <label for="date">Data:</label>
+      <input type="date" id="date" name="date" required>
+
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <section class="filter-section">
+      <label for="filterStartDate">Data Inicial:</label>
+      <input type="date" id="filterStartDate">
+      <label for="filterEndDate">Data Final:</label>
+      <input type="date" id="filterEndDate">
+      <button id="btnFilter">Filtrar</button>
+      <button id="btnClearFilter">Limpar Filtro</button>
+    </section>
+
+    <section class="summary-section">
+      <h2>Resumo Financeiro</h2>
+      <p><strong>Total de Receitas:</strong> R$ <span id="totalIncome">0,00</span></p>
+      <p><strong>Total de Despesas:</strong> R$ <span id="totalExpenses">0,00</span></p>
+      <p><strong>Saldo:</strong> R$ <span id="balance">0,00</span></p>
+    </section>
+
+    <section class="transactions-section">
+      <h2>Lançamentos</h2>
+      <table id="tableTransactions">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Valor (R$)</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <button id="darkModeToggle">🌙</button>
+
+  <footer class="footer">
+    <p>© 2025 Oficina</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('form-financial');
+    const tableBody = document.querySelector('#tableTransactions tbody');
+    const totalIncomeEl = document.getElementById('totalIncome');
+    const totalExpensesEl = document.getElementById('totalExpenses');
+    const balanceEl = document.getElementById('balance');
+    const btnFilter = document.getElementById('btnFilter');
+    const btnClearFilter = document.getElementById('btnClearFilter');
+    const filterStartDate = document.getElementById('filterStartDate');
+    const filterEndDate = document.getElementById('filterEndDate');
+
+    let transactions = [];
+
+    function formatBRL(value) {
+      return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function updateUI(data) {
+      tableBody.innerHTML = '';
+      if (data.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4">Nenhum lançamento encontrado.</td></tr>';
+      } else {
+        data.forEach(({ type, description, amount, date }) => {
+          const tipoTexto = type === 'income' ? 'Receita' : 'Despesa';
+          const valorFormatado = formatBRL(amount);
+          const dataFormatada = new Date(date).toLocaleDateString('pt-BR');
+          const row = `<tr>
+              <td>${tipoTexto}</td>
+              <td>${description}</td>
+              <td>${valorFormatado}</td>
+              <td>${dataFormatada}</td>
+            </tr>`;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+      }
+
+      const totalIncome = data.filter(t => t.type === 'income').reduce((acc, cur) => acc + Number(cur.amount), 0);
+      const totalExpenses = data.filter(t => t.type === 'expense').reduce((acc, cur) => acc + Number(cur.amount), 0);
+      totalIncomeEl.textContent = formatBRL(totalIncome);
+      totalExpensesEl.textContent = formatBRL(totalExpenses);
+      balanceEl.textContent = formatBRL(totalIncome - totalExpenses);
+    }
+
+    function saveTransactions() {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+
+    function loadTransactions() {
+      const saved = localStorage.getItem('transactions');
+      if (saved) {
+        try {
+          transactions = JSON.parse(saved);
+        } catch {
+          transactions = [];
+        }
+      }
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const type = form.type.value;
+      const description = form.description.value.trim();
+      const amount = parseFloat(form.amount.value);
+      const date = form.date.value;
+
+      if (!type || !description || isNaN(amount) || amount <= 0 || !date) {
+        alert('Por favor, preencha todos os campos corretamente.');
+        return;
+      }
+
+      transactions.push({ type, description, amount: amount.toFixed(2), date });
+      saveTransactions();
+      updateUI(transactions);
+      form.reset();
+    });
+
+    btnFilter.addEventListener('click', () => {
+      const start = filterStartDate.value;
+      const end = filterEndDate.value;
+      if (!start || !end) {
+        alert('Selecione as datas para filtrar.');
+        return;
+      }
+      if (start > end) {
+        alert('A data inicial não pode ser maior que a final.');
+        return;
+      }
+      const filtered = transactions.filter(t => t.date >= start && t.date <= end);
+      updateUI(filtered);
+    });
+
+    btnClearFilter.addEventListener('click', () => {
+      filterStartDate.value = '';
+      filterEndDate.value = '';
+      updateUI(transactions);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTransactions();
+      updateUI(transactions);
+    });
+  </script>
+   <script>
+        // Carrega o menu fixo
+        fetch('partials/menu.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao carregar o menu');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
+                console.error(error);
+            });
+    
+    </script>
+<script src="assets/js/script.js"></script> 
+</body>
+</html>
