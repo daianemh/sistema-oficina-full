@@ -37,23 +37,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script>
-        // Carrega o menu fixo
-        fetch('partials/menu.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao carregar o menu');
-                return response.text();
-            })
-            .then(data => {
-                document.getElementById('menu-container').innerHTML = data;
-            })
-            .catch(error => {
-                document.getElementById('menu-container').innerHTML = '<p>Menu não disponível.</p>';
-                console.error(error);
-            });
-
-    </script>
-
     <script src="assets/js/script.js"></script>
 </body>
 </html>
