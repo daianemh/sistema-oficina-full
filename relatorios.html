@@ -32,6 +32,8 @@
     </section>
 
     <button id="btn-pdf" style="display:none;">Salvar como PDF</button>
+   <button> id "btn-print"
+style="display:none;">imprimir </button>
   </main>
 
   <footer>
@@ -53,8 +55,12 @@
 
       document.getElementById('report-result').innerHTML = `<p>Relatório <strong>${typeText}</strong> para o período <strong>${periodText}</strong> gerado com sucesso.</p>`;
       document.getElementById('btn-pdf').style.display = 'block';
-    });
 
+document.getELementById('btn-print').style.display = 'block';
+    });
+document.getElementById('btn-print').addEventListener('click',function () {
+      const {jsprint} =window.jsprint;
+{document.getElementById('type').options[document.getElementById('type').selectedIndex].text}',10,20);
     document.getElementById('btn-pdf').addEventListener('click', function () {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
